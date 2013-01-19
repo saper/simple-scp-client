@@ -91,7 +91,7 @@ class SimpleSCPClientTestCase(unittest.TestCase):
         self.assertRaises(RemoteFileNotFoundError, self.run_scp,
                           GERRIT_SSH_PORT,
                           "%s@%s" % (GERRIT_USERNAME, GERRIT_HOST),
-                          "scp", "-z", "hooks/wrong")
+                          "scp", "-f", "hooks/wrong")
 
     def testGitHook(self):
         f = self.run_scp(GERRIT_SSH_PORT, "%s@%s" %
