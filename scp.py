@@ -73,3 +73,23 @@ def remote_copy(p):
     p.stdout.close()
     p.stderr.close()
     return contents
+
+
+if __name__ == '__main__':
+    import sys
+    import os
+    from getopt import getopt
+
+    (opts, args) = getopt(sys.argv[1:], "p:")
+    port = None
+    for (opt, val) in opts:
+        if opt == '-p':
+            port = val
+
+    if len(args) < 1:
+        sys.stderr.write("usage: %s [-p port] user@hostname\n" % sys.argv[0])
+        sys.exit(1)
+
+    sys.stdout.write(remote_copy(secure_shell(os.getenv("GIT_SSH") or "ssh",
+                                 port, args[0], "scp", "-f",
+                                 "hooks/commit-msg")))
