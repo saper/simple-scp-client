@@ -1,0 +1,6 @@
+Simple scp client for Python
+============================
+
+This is a simple Secure Copy/Remote Copy client
+for python plus a wrapper to support different
+SSH clients better (OpenSSH, plink.exe).
