@@ -1,27 +1,44 @@
 #! /usr/bin/env python
+
+#
+# Simple test suite for scp implementation
+#
+# Marcin Cieślak <saper@saper.info> 2013
 import unittest
 import re
 
 from scp import secure_shell, remote_copy,\
     CannotCopyFileError, RemoteFileNotFoundError
 
+#
+# List of SSH clients to run the test suite against
+# Make sure proper authentication is available (for example,
+# ssh-agent or pageant)
+#
 #TEST_CLIENTS = [ "ssh", "plink", "C:\\Program Files\\Git\\Bin\\ssh.exe" ]
 TEST_CLIENTS = ["ssh"]
-# Must not resolve
+# Host name that must not resolve
 UNKNOWN_HOST = "zz.saper.info"
-CLOSED_SSH_PORT = 2222
 
 # Normal UNIX shell server to connect (not gerrit)
+# This is used to test response to normal
+# (usually OpenSSH) implementation - file not found
+# or directory instead of the file
 SHELL_HOST = "l.saper.info"
 SHELL_SSH_PORT = 22
 SHELL_USERNAME = "saper"
+# The directory below has to exist on SHELL_HOST
+# under SHELL_USERNAME account
+SHELL_DIRECTORY = ".ssh"
+# TCP port that should be closed on SHELL_HOST
+CLOSED_SSH_PORT = 2222
 
 # Gerrit server coordinates
 GERRIT_HOST = "l.saper.info"
 GERRIT_SSH_PORT = 29418
 GERRIT_USERNAME = "saper"
+# Incorrect username on GERRIT_HOST
 WRONG_USERNAME = "wrong"
-SHELL_DIRECTORY = ".ssh"
 
 
 class SimpleSCPClientTestCase(unittest.TestCase):

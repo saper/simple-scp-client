@@ -1,4 +1,15 @@
 #! /usr/bin/env python
+
+#
+# Trivial implementation of the scp/rcp
+# protocol to fetch one file from the remote server
+#
+# Supports different SSH clients, like OpenSSH
+# and Simon Tatham's plink.exe
+#
+# Marcin Cieślak <saper@saper.info> 2013
+#
+
 import subprocess
 import re
 
