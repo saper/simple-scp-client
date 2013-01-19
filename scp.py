@@ -26,8 +26,12 @@ test = [
 
 
 SSH_CLIENTS = [
-    (re.compile("plink", re.I), "-P %s", "%s"),
-    (re.compile("ssh", re.I), "-p %s", "%s")
+    (re.compile("plink", re.I),
+        lambda p: ("-P", "%s" % p,),
+        lambda uh: ("%s" % uh,)),
+    (re.compile("ssh", re.I),
+        lambda p: ("-p %s" % p,),
+        lambda uh: ("%s" % uh,))
 ]
 
 
@@ -57,9 +61,8 @@ def secure_shell(cmd, port, userhost, *argv):
         if re.search(pattern, cmd):
             conn = shlex.split(str(cmd))
             if port:
-                conn += (PORT % port, USERHOST % userhost)
-            else:
-                conn += (USERHOST % userhost,)
+                conn += PORT(port)
+            conn += USERHOST(userhost)
 
     if conn:
         p = subprocess.Popen(conn + list(argv),
