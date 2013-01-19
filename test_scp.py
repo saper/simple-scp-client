@@ -34,9 +34,9 @@ SHELL_DIRECTORY = ".ssh"
 CLOSED_SSH_PORT = 2222
 
 # Gerrit server coordinates
-GERRIT_HOST = "l.saper.info"
+GERRIT_HOST = "review.openstack.org"
 GERRIT_SSH_PORT = 29418
-GERRIT_USERNAME = "saper"
+GERRIT_USERNAME = "saperski"
 # Incorrect username on GERRIT_HOST
 WRONG_USERNAME = "wrong"
 
