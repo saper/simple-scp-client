@@ -1,5 +1,6 @@
 #! /usr/bin/env python
 import unittest
+import re
 
 from scp import secure_shell, remote_copy,\
     CannotCopyFileError, RemoteFileNotFoundError
@@ -79,7 +80,8 @@ class SimpleSCPClientTestCase(unittest.TestCase):
         f = self.run_scp(GERRIT_SSH_PORT, "%s@%s" %
                          (GERRIT_USERNAME, GERRIT_HOST),
                          "scp", "-f", "hooks/commit-msg")
-        self.assertRegexpMatches(f.split()[0], ".*/bin/sh.*")
+        SH = re.compile(".*/bin/sh.*")
+        self.assert_(SH.match(f.split()[0]))
 
 if __name__ == "__main__":
     for test_client in TEST_CLIENTS:
