@@ -49,7 +49,7 @@ class RemoteFileNotFoundError(SecureCopyError):
 def secure_shell(cmd, port, userhost, *argv):
     conn = None
     for (pattern, PORT, USERHOST) in SSH_CLIENTS:
-        if re.match(pattern, cmd):
+        if re.search(pattern, cmd):
             if port:
                 conn = (cmd, PORT % port, USERHOST % userhost) + argv
             else:
