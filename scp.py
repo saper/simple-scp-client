@@ -59,7 +59,7 @@ def secure_shell(cmd, port, userhost, *argv):
     conn = None
     for (pattern, PORT, USERHOST) in SSH_CLIENTS:
         if re.search(pattern, cmd):
-            conn = shlex.split(str(cmd))
+            conn = [cmd]
             if port:
                 conn += PORT(port)
             conn += USERHOST(userhost)
