@@ -2,23 +2,25 @@
 import subprocess
 import re
 
+TEST_CLIENT = "ssh"
+
 test = [
     # CannotCopyFileError
-    ("ssh", 22, "saper@zz.saper.info", "scp", "-f", "hooks/wrong"),
+    (TEST_CLIENT, 22, "saper@zz.saper.info", "scp", "-f", "hooks/wrong"),
     # RemoteFileNotFoundError
-    ("ssh", 22, "saper@l.saper.info", "scp", "-f", "hooks/wrong"),
+    (TEST_CLIENT, 22, "saper@l.saper.info", "scp", "-f", "hooks/wrong"),
     # CannotCopyFileError
-    ("ssh", 2222, "saper@l.saper.info", "scp", "-f", "hooks/wrong"),
+    (TEST_CLIENT, 2222, "saper@l.saper.info", "scp", "-f", "hooks/wrong"),
     # CannotCopyFileError
-    ("ssh", 29418, "wrong@l.saper.info", "scp", "-f", "hooks/wrong"),
+    (TEST_CLIENT, 29418, "wrong@l.saper.info", "scp", "-f", "hooks/wrong"),
     # CannotCopyFileError
-    ("ssh", 29418, "saper@l.saper.info", "xscp", "-f", "hooks/wrong"),
+    (TEST_CLIENT, 29418, "saper@l.saper.info", "xscp", "-f", "hooks/wrong"),
     # RemoteFileNotFoundError
-    ("ssh", 29418, "saper@l.saper.info", "scp", "-z", "hooks/wrong"),
+    (TEST_CLIENT, 29418, "saper@l.saper.info", "scp", "-z", "hooks/wrong"),
     # RemoteFileNotFoundError
-    ("ssh", 29418, "saper@l.saper.info", "scp", "-f", "hooks/wrong"),
+    (TEST_CLIENT, 29418, "saper@l.saper.info", "scp", "-f", "hooks/wrong"),
     # OK
-    ("ssh", 29418, "saper@l.saper.info", "scp", "-f", "hooks/commit-msg")
+    (TEST_CLIENT, 29418, "saper@l.saper.info", "scp", "-f", "hooks/commit-msg")
 ]
 
 
