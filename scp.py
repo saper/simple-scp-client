@@ -1,6 +1,7 @@
 #! /usr/bin/env python
 import subprocess
 import re
+import shlex
 
 TEST_CLIENT = "ssh"
 
@@ -30,11 +31,15 @@ SSH_CLIENTS = [
 ]
 
 
-class UnknownSSHClientError(Exception):
+class SSHError(Exception):
     pass
 
 
-class SecureCopyError(Exception):
+class UnknownSSHClientError(SSHError):
+    pass
+
+
+class SecureCopyError(SSHError):
     pass
 
 
@@ -50,13 +55,14 @@ def secure_shell(cmd, port, userhost, *argv):
     conn = None
     for (pattern, PORT, USERHOST) in SSH_CLIENTS:
         if re.search(pattern, cmd):
+            conn = shlex.split(str(cmd))
             if port:
-                conn = (cmd, PORT % port, USERHOST % userhost) + argv
+                conn += (PORT % port, USERHOST % userhost)
             else:
-                conn = (cmd, USERHOST % userhost) + argv
+                conn += (USERHOST % userhost,)
 
     if conn:
-        p = subprocess.Popen(conn + argv,
+        p = subprocess.Popen(conn + list(argv),
                              stdin=subprocess.PIPE,
                              stdout=subprocess.PIPE,
                              stderr=subprocess.PIPE)
@@ -87,5 +93,5 @@ if __name__ == "__main__":
     for argv in test:
         try:
             print(remote_copy(secure_shell(*argv)))
-        except Exception as e:
+        except SSHError as e:
             print(repr(e))
