@@ -1,28 +1,6 @@
 #! /usr/bin/env python
 import subprocess
 import re
-import shlex
-
-TEST_CLIENT = "ssh"
-
-test = [
-    # CannotCopyFileError
-    (TEST_CLIENT, 22, "saper@zz.saper.info", "scp", "-f", "hooks/wrong"),
-    # RemoteFileNotFoundError
-    (TEST_CLIENT, 22, "saper@l.saper.info", "scp", "-f", "hooks/wrong"),
-    # CannotCopyFileError
-    (TEST_CLIENT, 2222, "saper@l.saper.info", "scp", "-f", "hooks/wrong"),
-    # CannotCopyFileError
-    (TEST_CLIENT, 29418, "wrong@l.saper.info", "scp", "-f", "hooks/wrong"),
-    # CannotCopyFileError
-    (TEST_CLIENT, 29418, "saper@l.saper.info", "xscp", "-f", "hooks/wrong"),
-    # RemoteFileNotFoundError
-    (TEST_CLIENT, 29418, "saper@l.saper.info", "scp", "-z", "hooks/wrong"),
-    # RemoteFileNotFoundError
-    (TEST_CLIENT, 29418, "saper@l.saper.info", "scp", "-f", "hooks/wrong"),
-    # OK
-    (TEST_CLIENT, 29418, "saper@l.saper.info", "scp", "-f", "hooks/commit-msg")
-]
 
 
 SSH_CLIENTS = [
@@ -90,11 +68,3 @@ def remote_copy(p):
     except IOError:
         raise CannotCopyFileError(p.stderr.readline())
     return contents
-
-
-if __name__ == "__main__":
-    for argv in test:
-        try:
-            print(remote_copy(secure_shell(*argv)))
-        except SSHError as e:
-            print(repr(e))
